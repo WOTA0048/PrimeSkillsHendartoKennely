@@ -11,20 +11,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody rbody;
     [SerializeField] private Toggle accToggle;
-    //[SerializeField] private GameObject PlatG;
-    //[SerializeField] private GameObject PlatR;
 
     [Header("Keybinds")]
     [SerializeField] KeyCode walkLeft = KeyCode.LeftArrow;
     [SerializeField] KeyCode walkRight = KeyCode.RightArrow;
 
     [Header("Checker")]
-    [SerializeField] private bool moving;
     [SerializeField] public string playerFace;
-    [SerializeField] private bool onPlatformG;
-    [SerializeField] private bool onPlatformR;
-    [SerializeField] private bool onPlatR;
-    [SerializeField] private bool onPlatL;
 
     [Header("Values")]
     [SerializeField] private float moveSpeed;
@@ -33,21 +26,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float currentVelocity;
     [SerializeField] private float accelerationRate;
     [SerializeField] private float playerPositionPercent;
-
-    public float xPos = 0.0f;
-    public Transform targetTransform;
-    //public Camera mainCamera;
-
-    public Transform rotator;
-
-    public Transform block_one;
-    public Transform block_two;
-
-    public float lastPlatformNum = 0;
+    [SerializeField] public float xPos = 0.0f;
 
 
 
-
+    void move()
+    {
+        rbody.isKinematic = false;
+        animator.SetBool("B_Run", true);
+        animator.SetFloat("run_multi", 1);
+        currentVelocity = currentVelocity + (accelerationRate * Time.deltaTime);
+        animVelocity = animVelocity + (animRate * Time.deltaTime);
+    }
 
 
 
@@ -71,13 +61,8 @@ public class PlayerMovement : MonoBehaviour
         {
             playerFace = "left";
             xPos -= Time.deltaTime * moveSpeed;
-            rbody.isKinematic = false;
             player.transform.rotation = Quaternion.Euler(0, 270, 0);
-            animator.SetBool("B_Run", true);
-            animator.SetFloat("run_multi", 1);
-
-            currentVelocity = currentVelocity + (accelerationRate * Time.deltaTime);
-            animVelocity = animVelocity + (animRate * Time.deltaTime);
+            move();
 
             if (!accToggle.isOn)
             {
@@ -96,13 +81,8 @@ public class PlayerMovement : MonoBehaviour
         {
             playerFace = "right";
             xPos += Time.deltaTime * moveSpeed;
-            rbody.isKinematic = false;
             player.transform.rotation = Quaternion.Euler(0, 90, 0);
-            animator.SetBool("B_Run", true);
-            animator.SetFloat("run_multi", 1);
-
-            currentVelocity = currentVelocity + (accelerationRate * Time.deltaTime);
-            animVelocity = animVelocity + (animRate * Time.deltaTime);
+            move();
 
             if (!accToggle.isOn)
             {
@@ -114,11 +94,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 rbody.velocity = Vector2.right * currentVelocity;
                 animator.SetFloat("run_multi", animVelocity);
-
             }
-
-
-
         }
 
         if (!Input.GetKey(walkLeft) && !Input.GetKey(walkRight))

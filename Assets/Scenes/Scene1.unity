@@ -1398,8 +1398,8 @@ MonoBehaviour:
   mainCamera: {fileID: 963194227}
   moveSpeed: 1
   rotator: {fileID: 1137912903}
-  block_one: {fileID: 4462423941135977167}
-  block_two: {fileID: 2296112371762331093}
+  blockOne: {fileID: 4462423941135977167}
+  blockTwo: {fileID: 2296112371762331093}
   lastPlatformNum: 0
   modifier: 2.5
 --- !u!4 &999270775
